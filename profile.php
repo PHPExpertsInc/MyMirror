@@ -41,12 +41,11 @@ function getUserURLs(PDO $pdo)
 {
 	$stmt = $pdo->prepare('SELECT g.url, g.title, g.last_fetched, d.name domain ' .
 			              'FROM UserURLs uu ' .
-						  'JOIN Users u ON u.id = uu.userID ' .
 						  'JOIN GrabbedURLs_v2 g ON g.id=uu.urlID ' . 
 						  'JOIN CachedDomains d ON d.id=g.domainID ' .
-						  'WHERE u.username=? ' . 
+						  'WHERE uu.userID =? ' .
 						  'ORDER BY g.last_fetched');
-	$stmt->execute(array($_SESSION['username']));
+	$stmt->execute(array($_SESSION['userID']));
 
 	$grabbedURLs = array();
 	while (($url = $stmt->fetchObject('GrabbedURL')))

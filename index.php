@@ -30,23 +30,26 @@ function getUserInput()
 
 function validateUser(PDO $pdo, $username, $password)
 {
-	$stmt = $pdo->prepare('SELECT 1=1 AS isValid FROM Users ' .
+	$stmt = $pdo->prepare('SELECT id FROM Users ' .
 			              'WHERE username=? AND ' .
 						  '      password=PASSWORD(?)');
 	$stmt->execute(array($username, $password));
 	$row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-	if (is_null($row) || $row['isValid'] == false)
+	if (is_null($row))
 	{
 		throw new RuntimeException('Invalid username or password.');
 	}
+
+	session_start();
+	$_SESSION['userID'] = $row['id'];
 }
 
 function registerUserAsLoggedIn($username)
 {
 	define('MIN_RAND', 1000);
 	define('MAX_RAND', 1000000);
-	session_start();
+
 	$_SESSION['username'] = $username;
 	$_SESSION['secret'] = rand(MIN_RAND, MAX_RAND);
 }
