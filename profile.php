@@ -10,6 +10,7 @@ class GrabbedURL
 
 	public $domain;
 	public $url;
+	public $title;
 	public $last_fetched;
 	public $first_added;
 }
@@ -38,7 +39,7 @@ function ensureHasAccess()
 
 function getUserURLs(PDO $pdo)
 {
-	$stmt = $pdo->prepare('SELECT g.url, g.last_fetched, d.name domain ' .
+	$stmt = $pdo->prepare('SELECT g.url, g.title, g.last_fetched, d.name domain ' .
 			              'FROM UserURLs uu ' .
 						  'JOIN Users u ON u.id = uu.userID ' .
 						  'JOIN GrabbedURLs_v2 g ON g.id=uu.urlID ' . 
@@ -67,7 +68,7 @@ function getUserURLs(PDO $pdo)
 	foreach ($userURLs as /**@var GrabbedURL**/$url)
 	{
 ?>
-				<li><?php echo $url->last_fetched; ?> &mdash; <a href="<?php echo $url->url; ?>"><?php echo $url->domain; ?></a></li>
+				<li><?php echo $url->last_fetched; ?> &mdash; <a href="<?php echo $url->url; ?>"><?php echo $url->title; ?></a> [<?php echo $url->domain; ?>]</li>
 <?php
 	}
 ?>
@@ -75,6 +76,7 @@ function getUserURLs(PDO $pdo)
 		<div id="add_link">
 			<h3>Mirror a new URL</h3>
 			<form method="post" action="add_link.php">
+				<div>Title: <input type="text" name="title" /></div>
 				<div>URL: <input type="text" name="url" /></div>
 				<div><input type="submit" value="add url"/></div>
 			</form>
