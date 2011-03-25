@@ -61,7 +61,7 @@ function takeToUserPage()
 ?>
 <html>
 	<body>
-		<h1>MyUser v1.0</h1>
+		<h1>MyMirror</h1>
 		<div id="login_box">
 			<form method="post">
 				<h4>Log in: </h4>
