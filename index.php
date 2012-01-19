@@ -2,7 +2,7 @@
 
 if (isset($_POST['username']))
 {
-	require './.misc/showErrors.inc.php';
+	require './misc/showErrors.inc.php';
 	require '../.dbcreds';
 
 	$pdo = new PDO(sprintf('mysql:host=%s;dbname=%s', DBConfig::$host, DBConfig::$db), DBConfig::$user, DBConfig::$pass);
@@ -25,7 +25,7 @@ function getUserInput()
 	$password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
 
 	return array('username' => $username,
-			     'password' => $password);
+	             'password' => $password);
 }
 
 function validateUser(PDO $pdo, $username, $password)
